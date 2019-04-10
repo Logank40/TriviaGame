@@ -12,22 +12,26 @@
 
 <body>
   <h1>Quiz Test</h1>
+  <h3>Time Remaining: <span id="timer">0</span> Seconds</h3>
   <form id="quiz-form">
-
+      
   </form>
-
+  <button id="start-button">Start</button>
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
   <script>
+    
+
     // create question bank
     var questions = [
       {
-        question: 'Question 1',
-        answer: 'Answer 1',
-        choices: ['Answer 1', "Answer 2", "Answer 3"],
+        question: 'Which team has won the most Stanley Cups in NHL history?',
+        answer: 'Montreal Canadiens',
+        choices: ['Montreal Canadiens', "Detroit Red Wings", "Los Angeles Kings", 'New York Rangers'],
         userAnswer: ""
       },
       {
@@ -43,7 +47,23 @@
         userAnswer: ""
       }
     ];
-    
+    var isTimerRunning = false;
+    var timeRemaining = 5;
+    var timerInterval;
+      var correctAnswers = 0;
+      var incorrectAnswers = 0;
+      var questionsUnanswered = 0;
+    //start a countdown function
+
+      function countDown() {
+        timeRemaining --;
+        if (!timeRemaining) {
+          console.log("timeRanOut")
+          clearInterval(timerInterval)
+          checkAnswers();
+        }
+        $("#timer").text(timeRemaining)
+      }
     // set user score
     var correct = 0;
     
@@ -108,6 +128,25 @@
         // when done making all of the choices, add whole question to the page
         $("#quiz-form").append($question);
       });
+      var $button = $('<button>');
+      $button.attr("id", "submit-button");
+      $button.text("Submit");
+      $("#quiz-form").append($button);
+    }
+
+    function checkAnswers() {
+      for (var i = 0; i < questions.length; i++) {
+        if (questions[i].userAnswer === questions[i].answer) {
+          correctAnswers ++;
+        }
+        else if (!questions[i].userAnswer) {
+          questionsUnanswered ++;
+        }
+        else {
+          incorrectAnswers ++;
+        }
+      }
+      
     }
 
     // create on "change" listener for all radio buttons but bind them to quiz-form since it's permanently on the page
@@ -127,7 +166,30 @@
       
     });
 
-    renderQuestions();
+
+
+    //add click event for start button
+    $("#start-button").on("click", function(){
+      if (!isTimerRunning) {
+        timerInterval = setInterval(countDown, 1000)
+        renderQuestions ();
+        isTimerRunning = true;
+      }
+      $(this).hide();
+    }) 
+
+    $(document).on("click", "#submit-button", function(){
+      event.preventDefault();
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      checkAnswers();
+      console.log(correctAnswers, incorrectAnswers, questionsUnanswered)
+      
+
+    });
+    
+
+
   </script>
 
 </body>

@@ -13,9 +13,7 @@
 <body>
   <h1>Quiz Test</h1>
   <h3>Time Remaining: <span id="timer">0</span> Seconds</h3>
-  <form id="quiz-form">
-      
-  </form>
+  <form id="quiz-form"></form> <div id="results"></div>
   <button id="start-button">Start</button>
   
 
@@ -35,20 +33,63 @@
         userAnswer: ""
       },
       {
-        question: 'Question 2',
-        answer: 'Answer 2',
-        choices: ['Answer 1', "Answer 2", "Answer 3"],
+        question: 'Which player has scored the most points in NHL history?',
+        answer: 'Wayne Gretzky',
+        choices: ["Jerome Iginla", 'Wayne Gretzky', "Sidney Crosby", "Bobby Orr"],
         userAnswer: ""
       },
       {
-        question: 'Question 3',
-        answer: 'Answer 3',
-        choices: ['Answer 1', "Answer 2", "Answer 3"],
+        question: 'Which player led the league in goals this season?',
+        answer: 'Alex Ovechkin',
+        choices: ['Steven Stamkos', "Sidney Crosby", 'Alex Ovechkin', "Alexander Barkov"],
         userAnswer: ""
-      }
+      },
+      {
+        question: 'Which player led the NHL in points this past season?',
+        answer: 'Nikita Kucherov',
+        choices: ['Nikita Kucherov', "Alex Ovechkin", "Brayden Point", "Sidney Crosby"],
+        userAnswer: ""
+      },
+      {
+        question: 'Which NHL goalie led the league in save percentage this past season?',
+        answer: 'Ben Bishop',
+        choices: ['Ben Bishop', "Tukka Rask", "Cory Schneider", "Marc Andre Fleury"],
+        userAnswer: ""
+      },
+      {
+        question: 'Which NHL player led the league in penalty minutes?',
+        answer: 'Evander Kane',
+        choices: ["Zdeno Chara", "Shea Weber", 'Evander Kane',
+      "P.K. Subban"],
+        userAnswer: ""
+      },
+      {
+        question: 'Which NHL player led the league in assists this past season?',
+        answer: 'Nikita Kucherov',
+        choices: ['Nikita Kucherov', "Blake Wheeler", "Mitch Marner", "Patrick Kane"],
+        userAnswer: ""
+      },
+      {
+        question: 'Which NHL team had the most wins this past season?',
+        answer: 'Tampa Bay Lightning',
+        choices: ['Tampa Bay Lightning', "Nashville Predators", "New York Islanders", "Pittsburgh Pebguins"],
+        userAnswer: ""
+      },
+      {
+        question: 'Which NHL rookie led the league in points this past season?',
+        answer: 'Elias Pettersson',
+        choices: ['Elias Pettersson', "Brady Tkachuk", "Rasmus Dahlin", "Colin White"],
+        userAnswer: ""
+      },
+      {
+        question: 'Which NHL player led the league in power play goals this past season?',
+        answer: 'Brayden Point',
+        choices: ['Brayden Point', "Steven Stamkos", "Alex Ovechkin", "Nikita Kucherov"],
+        userAnswer: ""
+      },
     ];
     var isTimerRunning = false;
-    var timeRemaining = 5;
+    var timeRemaining = 30;
     var timerInterval;
       var correctAnswers = 0;
       var incorrectAnswers = 0;
@@ -66,7 +107,6 @@
       }
     // set user score
     var correct = 0;
-    
     // function to print all questions to page
     function renderQuestions() {
       // clear out form
@@ -146,6 +186,13 @@
           incorrectAnswers ++;
         }
       }
+        //create new div to hold info
+        var $results = $("<div>")
+        var $correct = $("<h2>").text(`Correct: ${correctAnswers}`)
+        var $incorrect = $("<h2>").text(`Incorrect: ${correctAnswers}`)
+        var $unanswered = $("<h2>").text(`Unanswered: ${questionsUnanswered}`)
+        
+        $("#results").append($correct, $incorrect, $unanswered);
       
     }
 
@@ -184,7 +231,7 @@
       isTimerRunning = false;
       checkAnswers();
       console.log(correctAnswers, incorrectAnswers, questionsUnanswered)
-      
+      $("#quiz-form").empty()
 
     });
     
